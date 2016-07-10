@@ -94,7 +94,7 @@ $(function() {
 				// console.log(response);
 				if(jQuery.isEmptyObject( response )){
 					//redirect
-					location.href = "/";
+					location.href = "/do-it-yourself/";
 				}else{
 					for(key in response){
 						$("#"+key).parents('div.form-group').append('<span class="error">'+response[key]+'</span>');
