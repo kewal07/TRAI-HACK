@@ -13,6 +13,7 @@ $(function() {
 	});
 	$('.sign-up-button').bind('click', function(e){
 		e.preventDefault();
+		$(".error").remove();
 		var signup_sub_but = $(this);
 		var form_id = "#sign-up-form";
 		var signup_url = $(form_id).attr("action");
@@ -32,6 +33,12 @@ $(function() {
 			{
 				console.log("error");
 				console.log(response);
+				for(key in response.responseJSON.form_errors){
+					if(key == '__all__')
+						$(form_id + ' div.box-body').append('<span class="error">'+response.responseJSON.form_errors[key]+'</span>');
+					else
+						$("#"+key).parents('div.form-group').append('<span class="error">'+response.responseJSON.form_errors[key]+'</span>');
+				}
 				signup_sub_but.removeAttr("disabled","disabled");
 		
 			}
@@ -39,6 +46,7 @@ $(function() {
 	});
 	$('.sign-in-button').bind('click', function(e){
 		e.preventDefault();
+		$(".error").remove();
 		var signin_sub_but = $(this);
 		var form_id = "#sign-in-form";
 		var signin_url = $(form_id).attr("action");
@@ -58,6 +66,12 @@ $(function() {
 			{
 				console.log("error");
 				console.log(response);
+				for(key in response.responseJSON.form_errors){
+					if(key == '__all__')
+						$(form_id + ' div.box-body').append('<span class="error">'+response.responseJSON.form_errors[key]+'</span>');
+					else
+						$("#"+key).parents('div.form-group').append('<span class="error">'+response.responseJSON.form_errors[key]+'</span>');
+				}
 				signin_sub_but.removeAttr("disabled","disabled");
 		
 			}
