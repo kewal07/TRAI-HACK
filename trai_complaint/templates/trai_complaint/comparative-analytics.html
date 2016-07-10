@@ -1,0 +1,235 @@
+{% extends "trai_complaint/common.html" %}
+{% block extra_css %}
+	<style>
+    	.content-wrapper, .right-side, .main-footer{
+			margin-left: 235px;
+		}
+		.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side{
+			background-color:#222d32; 
+		}
+    </style>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% endblock %}
+{% block content %}
+	<aside class="main-sidebar">
+	<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+		  <!-- /.search form -->
+		  <!-- sidebar menu: : style can be found in sidebar.less -->
+		  <ul class="sidebar-menu">
+		    <li class="header">MAIN NAVIGATION</li>
+		    <li class="active">
+		      <a href="#">
+		        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+		      </a>
+		    </li>
+		    <li>
+		      <a href="{% url 'trai_complaint:comparative' %}">
+		        <i class="fa fa-pie-chart"></i> <span>Comparitive Analytics</span>
+		      </a>
+		    </li>
+		    <li>
+		      <a href="{% url 'trai_complaint:predective' %}">
+		        <i class="fa fa-bars"></i> <span>Predective Analytics</span>
+		      </a>
+		    </li>
+		    <li>
+		      <a href="{% url 'trai_complaint:download' %}">
+		        <i class="fa fa-cloud-download"></i> <span>View & Export</span>
+		      </a>
+		    </li>
+		  </ul>
+		</section>
+	<!-- /.sidebar -->
+	</aside>
+	<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+		<section class="content-header">
+		  <h1>
+		    Comparitive Analytics
+		    <small>Control panel</small>
+		  </h1>
+		  <ol class="breadcrumb">
+		    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+		    <li class="active">Comparitive Analytics</li>
+		  </ol>
+		</section>
+		<!-- Main content -->
+		<section class="content">
+		  <form role="form">
+		  	<div class="row col-md-6">
+			  	<div class="col-md-4">
+				  	<div class="form-group">
+						<label>Select TSP</label>
+						<select class="form-control">
+							{% for service in data.tsps %}
+		                    	<option value="{{ service.code }}">{{ service.display_name }}</option>
+							{% endfor %}
+						</select>
+	                </div>
+	            </div>
+	            <div class="col-md-4">
+				  	<div class="form-group">
+						<label>Select Circle</label>
+						<select class="form-control">
+							{% for service in data.circles %}
+		                    	<option value="{{ service }}">{{ service }}</option>
+							{% endfor %}
+						</select>
+	                </div>
+	            </div>
+	            <div class="col-md-4">
+				  	<div class="form-group">
+						<label>Select Service</label>
+						<select class="form-control">
+							{% for service in data.services %}
+		                    	<option value="{{ service.code }}">{{ service.display_name }}</option>
+							{% endfor %}
+						</select>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="row col-md-6">
+			  	<div class="col-md-4">
+				  	<div class="form-group">
+						<label>Select TSP</label>
+						<select class="form-control">
+							{% for service in data.tsps %}
+		                    	<option value="{{ service.code }}">{{ service.display_name }}</option>
+							{% endfor %}
+						</select>
+	                </div>
+	            </div>
+	            <div class="col-md-4">
+				  	<div class="form-group">
+						<label>Select Circle</label>
+						<select class="form-control">
+							{% for service in data.circles %}
+		                    	<option value="{{ service }}">{{ service }}</option>
+							{% endfor %}
+						</select>
+	                </div>
+	            </div>
+	            <div class="col-md-4">
+				  	<div class="form-group">
+						<label>Select Service</label>
+						<select class="form-control">
+							{% for service in data.services %}
+		                    	<option value="{{ service.code }}">{{ service.display_name }}</option>
+							{% endfor %}
+						</select>
+	                </div>
+	            </div>
+	        </div>
+            <!-- <button type="submit" class="btn btn-primary predictive-submit">Compare
+            </button> -->	
+		  </form>
+		 <div class="row col-md-12">
+		 	<div class="box box-success">
+	            <div class="box-header with-border">
+	            </div>
+	            <div class="box-body">
+	              <div class="chart">
+	                <canvas id="barChart" style="height:460px"></canvas>
+	              </div>
+	            </div>
+	            <!-- /.box-body -->
+	        </div>
+		 </div>
+		</section>
+		<!-- /.content -->
+	</div>
+{% endblock %}
+{% block extra_js %}
+
+	<script src="/static/plugins/chartjs/Chart.min.js"></script>
+	<script>
+	function drawCharts(labels){
+		var data1 = [];
+		var data2 = [];
+		for(var i = 1 ;i<9; i++){
+			data1.push((1+Math.floor(Math.random() * 10000))+Math.floor(Math.random() * 8));
+			data2.push((1+Math.floor(Math.random() * 15000))+Math.floor(Math.random() * 8));
+		}
+		console.log(data1,data2);
+		var areaChartData = {
+		      labels: labels,
+			      datasets: [
+			        {
+			          label: "Issues",
+		          fillColor: "rgba(210, 214, 222, 1)",
+		          strokeColor: "rgba(210, 214, 222, 1)",
+		          pointColor: "rgba(210, 214, 222, 1)",
+		          pointStrokeColor: "#c1c7d1",
+		          pointHighlightFill: "#fff",
+		          pointHighlightStroke: "rgba(220,220,220,1)",
+		          data: data1
+		        },
+		        {
+		          label: "Issues",
+		          fillColor: "rgba(60,141,188,0.9)",
+		          strokeColor: "rgba(60,141,188,0.8)",
+		          pointColor: "#3b8bba",
+		          pointStrokeColor: "rgba(60,141,188,1)",
+		          pointHighlightFill: "#fff",
+		          pointHighlightStroke: "rgba(60,141,188,1)",
+		          data: data2
+		        }
+		      ]
+		    };
+		    //-------------
+		    //- BAR CHART -
+		    //-------------
+		    var barChartCanvas = $("#barChart").get(0).getContext("2d");
+		    var barChart = new Chart(barChartCanvas);
+		    var barChartData = areaChartData;
+		    barChartData.datasets[1].fillColor = "#00a65a";
+		    barChartData.datasets[1].strokeColor = "#00a65a";
+		    barChartData.datasets[1].pointColor = "#00a65a";
+		    var barChartOptions = {
+		      //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+		      scaleBeginAtZero: true,
+		      //Boolean - Whether grid lines are shown across the chart
+		      scaleShowGridLines: true,
+		      //String - Colour of the grid lines
+		      scaleGridLineColor: "rgba(0,0,0,.05)",
+		      //Number - Width of the grid lines
+		      scaleGridLineWidth: 1,
+		      //Boolean - Whether to show horizontal lines (except X axis)
+		      scaleShowHorizontalLines: true,
+		      //Boolean - Whether to show vertical lines (except Y axis)
+		      scaleShowVerticalLines: true,
+		      //Boolean - If there is a stroke on each bar
+		      barShowStroke: true,
+		      //Number - Pixel width of the bar stroke
+		      barStrokeWidth: 2,
+		      //Number - Spacing between each of the X value sets
+		      barValueSpacing: 5,
+		      //Number - Spacing between data sets within X values
+		      barDatasetSpacing: 1,
+		      //String - A legend template
+		      
+		      //Boolean - whether to make the chart responsive
+		      responsive: true,
+		      maintainAspectRatio: true
+		    };
+
+		    barChartOptions.datasetFill = false;
+		    barChart.Bar(barChartData, barChartOptions);
+	}
+			$(function () {
+				var labels = [];
+				{% for cat in data.categories %}
+					labels.push("{{ cat.display_name }}");
+				{% endfor %}
+				
+       			drawCharts(labels);
+
+    			$(".form-control").change(function(){
+    				drawCharts(labels);
+    			});
+  			});
+		</script>
+{% endblock %}

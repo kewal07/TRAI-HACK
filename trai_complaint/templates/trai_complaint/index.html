@@ -101,7 +101,7 @@
 			          <!-- small box -->
 			          <div class="small-box {{ forloop.counter|get_color }}">
 			            <div class="inner">
-			              <h3>{{ complaint.summary }}</h3>
+			              <h3><a href="{% url 'trai_complaint:complaint-detail' complaint.id complaint.slug %}" class="small-box-footer">{{ complaint.summary }}</a></h3>
 
 			              <p>{{ complaint.description }}</p>
 			            </div>

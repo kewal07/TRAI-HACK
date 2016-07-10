@@ -14,3 +14,13 @@ def replace_space(v1):
 	# print(v1)
 	ret = v1.replace(" ","_")
 	return ret
+
+@register.filter(name='get_status_state')
+def get_status_state(v1):
+	# print(v1)
+	ret = "label-succes"
+	if v1 == 'O':
+		ret = 'label-warning'
+	elif v1 == 'RO':
+		ret = 'label-danger'
+	return ret

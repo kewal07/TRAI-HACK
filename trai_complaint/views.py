@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.views import logout
 from django.http import HttpResponseRedirect, HttpResponse
-from trai_complaint.models import Category, TSP, TSPService, Complaint, ComplaintWithCategory, ComplaintWithService
+from trai_complaint.models import Category, TSP, TSPService, Complaint, ComplaintWithCategory, ComplaintWithService, Status
 from random import randint
 import os, sys, linecache
 import simplejson as json
@@ -38,8 +38,21 @@ class IndexView(generic.ListView):
 
 class DashboardView(generic.ListView):
 	template_name = 'trai_complaint/dashboard.html'
+	context_object_name = 'data'
 	def get_queryset(self):
-		return {}
+		data = {}
+		data["complaints"] = Complaint.objects.all()
+		op_status = Status.objects.filter(code__in=['O','RO'])
+		data['openc'] = Complaint.objects.filter(status__in=op_status)
+		data['categories'] = Category.objects.all()
+		data['tsps'] = TSP.objects.all()
+		data['services'] = TSPService.objects.all()
+		data['circles'] = circles
+		return data
+
+class ComplaintDetailView(generic.DetailView):
+	template_name = 'trai_complaint/complaint-detail.html'
+	model = Complaint
 
 class AddComplaintView(generic.ListView):
 	template_name = 'trai_complaint/add-complaint.html'
@@ -126,3 +139,39 @@ class AjaxQueriesView(generic.ListView):
 			linecache.checkcache(filename)
 			line = linecache.getline(filename, lineno, f.f_globals)
 			print('EXCEPTION IN ({}, LINE {} "{}"): {}'.format(filename, lineno, line.strip(), exc_obj))
+
+
+class ComparativeView(generic.ListView):
+	template_name = 'trai_complaint/comparative-analytics.html'
+	context_object_name = 'data'
+	def get_queryset(self):
+		data = {}
+		data["complaints"] = Complaint.objects.all()
+		data['categories'] = Category.objects.filter(parent_category__isnull=True)
+		data['tsps'] = TSP.objects.all()
+		data['services'] = TSPService.objects.all()
+		data['circles'] = circles
+		return data
+
+class PredictiveView(generic.ListView):
+	template_name = 'trai_complaint/predective-analytics.html'
+	context_object_name = 'data'
+	def get_queryset(self):
+		data = {}
+		data["complaints"] = Complaint.objects.all()
+		data['categories'] = Category.objects.all()
+		data['tsps'] = TSP.objects.all()
+		data['services'] = TSPService.objects.all()
+		return data
+
+class ExportView(generic.ListView):
+	template_name = 'trai_complaint/download.html'
+	context_object_name = 'data'
+	def get_queryset(self):
+		data = {}
+		data["complaints"] = Complaint.objects.all()
+		data['categories'] = Category.objects.all()
+		data['tsps'] = TSP.objects.all()
+		data['services'] = TSPService.objects.all()
+		data['circles'] = circles
+		return data

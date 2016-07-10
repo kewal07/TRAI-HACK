@@ -13,6 +13,9 @@
 .index-filter-but{
 	display: none;
 }
+#invoice-pdf{
+	width:1000px;
+}
 .be-loader { 
 	display: block; 
 	position: fixed; 
