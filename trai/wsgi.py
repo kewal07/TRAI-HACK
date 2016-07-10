@@ -7,10 +7,10 @@ For more information on this file, see
 https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/
 """
 
-import os
-
-from django.core.wsgi import get_wsgi_application
-
+import os,sys
+os.environ['HTTPS'] = "on"
+sys.path.append("/home/ubuntu/TRAI-HACK")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "trai.settings")
 
+from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
