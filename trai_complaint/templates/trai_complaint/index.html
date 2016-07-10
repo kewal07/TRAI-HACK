@@ -114,6 +114,24 @@
 			          </div>
 			        </div>
 				{% endfor %}
+				{% for complaint in data.complaints %}
+					<div class="col-md-4 mix {{ complaint.get_class }}">
+			          <!-- small box -->
+			          <div class="small-box {{ forloop.counter|get_color }}">
+			            <div class="inner">
+			              <h3><a href="{% url 'trai_complaint:complaint-detail' complaint.id complaint.slug %}" class="small-box-footer">{{ complaint.summary }}</a></h3>
+
+			              <p>{{ complaint.description }}</p>
+			            </div>
+			            <div class="icon">
+			              <i class="fa fa-file-text-o"></i>
+			            </div>
+			            <a href="{% url 'trai_complaint:add-complaint' %}?id={{ complaint.id }}" class="small-box-footer">
+			              Register This As My Complaint Also <i class="fa fa-arrow-circle-right"></i>
+			            </a>
+			          </div>
+			        </div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
