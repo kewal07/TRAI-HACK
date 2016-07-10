@@ -78,9 +78,15 @@
 			          <li>
 			            <a href="#"><i class="fa fa-question"></i> FAQ</a>
 			          </li>
+			          {% if not user.is_authenticated %}
 			          <li>
-			            <a href="#"><i class="fa fa-sign-in"></i> Login</a>
+			            <a href="{% url 'trai_complaint:signin' %}"><i class="fa fa-sign-in"></i> Login</a>
 			          </li>
+			          {% else %}
+			          <li>
+			            <a href="{% url 'trai_complaint:logout' %}"><i class="fa fa-log-out"></i> Logout</a>
+			          </li>
+			          {% endif %}
 			        </ul>
 			      </div>
 			    </nav>
