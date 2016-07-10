@@ -10,6 +10,9 @@
 .error{
 	color: red;
 }
+.index-filter-but{
+	display: none;
+}
 .be-loader { 
 	display: block; 
 	position: fixed; 

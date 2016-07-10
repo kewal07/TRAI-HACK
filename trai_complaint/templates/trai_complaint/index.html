@@ -23,7 +23,7 @@
 			<div class="col-md-3">
 				<div class="form-group">
                   <!-- <label>TSP</label> -->
-                  <select class="form-control">
+                  <select class="form-control filter-select">
                   	{% for tsp in data.tsps %}
                   		<option value="{{ tsp.code }}">{{ tsp.display_name }}</option>
                     {% endfor %}
@@ -33,7 +33,7 @@
 			<div class="col-md-3">
 				<div class="form-group">
                   <!-- <label>Service</label> -->
-                  <select class="form-control">
+                  <select class="form-control filter-select">
                     {% for service in data.services %}
                     	<option value="{{ service.code }}">{{ service.display_name }}</option>
 					{% endfor %}
@@ -43,13 +43,22 @@
 			<div class="col-md-3">
 				<div class="form-group">
                   <!-- <label>Category</label> -->
-                  <select class="form-control">
+                  <select class="form-control filter-select">
                   	{% for cat in data.categories %}
                     	<option value="{{ cat.code }}">{{ cat.display_name }}</option>
 					{% endfor %}
                   </select>
                 </div>
 			</div>
+			{% for tsp in data.tsps %}
+          		<button id="{{ tsp.code }}-filter-but" class="filter index-filter-but" data-filter=".{{ tsp.code }}">{{ tsp.display_name }}</option>
+            {% endfor %}
+            {% for service in data.services %}
+          		<button id="{{ service.code }}-filter-but" class="filter index-filter-but" data-filter=".{{ service.code }}">{{ service.display_name }}</option>
+            {% endfor %}
+            {% for cat in data.categories %}
+          		<button id="{{ cat.code }}-filter-but" class="filter index-filter-but" data-filter=".{{ cat.code }}">{{ cat.display_name }}</option>
+            {% endfor %}
 		</div>
 	</div>
 	<div class="my-content">

@@ -111,4 +111,8 @@ $(function() {
 			}
 		});  
 	});
+	$(".filter-select").change(function(){
+		var but_id = $(this).val() + "-filter-but";
+		$("#"+but_id).click();
+	});
 });
