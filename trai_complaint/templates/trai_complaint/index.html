@@ -1,0 +1,111 @@
+{% extends "trai_complaint/common.html" %}
+{% load custom_tags %}
+{% block content %}
+	<div class="head-bg">
+		<div class="head-bg-img"></div>
+		<div class="head-bg-content">
+			<h1>TRAI Complaint Redressal System</h1>
+			<p>Register & Resolve your complaints in seconds</p>
+			<a class="btn btn-primary" ><i class="fa fa-facebook"></i>sign up via facebook</a>
+			<a class="btn btn-primary"><i class="fa fa-lock"></i>sign up now</a>
+		</div>	
+	</div>
+	<div class="my-content">
+		<div class="row">
+			<div class="col-md-3">
+				 <div class="input-group">
+	                <div class="input-group-btn">
+	                  <button type="button" class="btn btn-danger">Search</button>
+	                </div>
+	                <input type="text" class="form-control">
+	              </div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+                  <!-- <label>TSP</label> -->
+                  <select class="form-control">
+                  	{% for tsp in data.tsps %}
+                  		<option value="{{ tsp.code }}">{{ tsp.display_name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+                  <!-- <label>Service</label> -->
+                  <select class="form-control">
+                    {% for service in data.services %}
+                    	<option value="{{ service.code }}">{{ service.display_name }}</option>
+					{% endfor %}
+                  </select>
+                </div>
+			</div>
+			<div class="col-md-3">
+				<div class="form-group">
+                  <!-- <label>Category</label> -->
+                  <select class="form-control">
+                  	{% for cat in data.categories %}
+                    	<option value="{{ cat.code }}">{{ cat.display_name }}</option>
+					{% endfor %}
+                  </select>
+                </div>
+			</div>
+		</div>
+	</div>
+	<div class="my-content">
+		<div class="row">
+			<div class="col-md-3">
+				<h3>Consumer Info</h3>
+				<div class="trai-info">
+					<div class="info-slide">
+				  		<img class="info-img" src="/static/img/list-service.jpg">
+				  		<p class="info-text">List Of Service Providers</p>
+				  	</div>
+				   	<div class="info-slide">
+				  		<img class="info-img" src="/static/img/con-survey.jpg">
+				  		<p class="info-text">Consumer Survey</p>
+				  	</div>
+			    	<div class="info-slide">
+			  			<img class="info-img" src="/static/img/industry-charter.jpg">
+				  		<p class="info-text">Industry Charter</p>
+			    	</div>
+				</div>
+				<div class="trai-consultation">
+					<h3>Latest Consultations</h3>
+					<ul class="consultations">
+						<li><a href="#">The Draft Telecom Consumers Protection (Tenth Amendment) ...</a></li>
+						<li><a href="#">The Draft Telecom Consumers Protection (Tenth Amendment) ...</a></li>
+						<li><a href="#">The Draft Telecom Consumers Protection (Tenth Amendment) ...</a></li>
+						<li><a href="#">The Draft Telecom Consumers Protection (Tenth Amendment) ...</a></li>
+						<li><a href="#">The Draft Telecom Consumers Protection (Tenth Amendment) ...</a></li>
+					</ul>
+				</div>
+				<div class="trai-latest">
+					<h3>Poll of the Day</h3>
+					<div class="askbypoll-embed-poll" id="askbypoll-data-embed-poll---4380"></div>
+					<script type='text/javascript' src='https://www.askbypoll.com/static/js/widgetwithdatas.js'></script>
+				</div>
+			</div>
+			<div class="row row-complaints" id="complaints-container">
+				{% for complaint in data.complaints %}
+					<div class="col-md-4 mix {{ complaint.get_class }}">
+			          <!-- small box -->
+			          <div class="small-box {{ forloop.counter|get_color }}">
+			            <div class="inner">
+			              <h3>{{ complaint.summary }}</h3>
+
+			              <p>{{ complaint.description }}</p>
+			            </div>
+			            <div class="icon">
+			              <i class="fa fa-file-text-o"></i>
+			            </div>
+			            <a href="{% url 'trai_complaint:add-complaint' %}?id={{ complaint.id }}" class="small-box-footer">
+			              Register This As My Complaint Also <i class="fa fa-arrow-circle-right"></i>
+			            </a>
+			          </div>
+			        </div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

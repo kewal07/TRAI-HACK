@@ -1,0 +1,35 @@
+{% extends "trai_complaint/common.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Sign Up" %}</h1>
+
+<p>{% blocktrans %}Already have an account myform? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+<form class="sign-up-form-class" id="sign-up-form" method="post" action="{% url 'account_signup' %}?next={{ request.path }}">
+  {% csrf_token %}
+  <p>
+  	<input id="id_first_name" name="first_name" placeholder="First Name" type="text">
+  </p>
+  <p>
+  	<input id="id_last_name" name="last_name" placeholder="Last Name" type="text">
+  </p>
+  <p>
+ 	<input id="id_email" name="email" placeholder="E-mail address" type="email">
+  </p>
+  <p>
+  	<input id="id_password1" name="password1" placeholder="Password" type="password">
+  </p>
+  <p>
+  	<input id="id_password2" name="password2" placeholder="Password (again)" type="password">
+  </p>
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="sign-up-button">{% trans "Sign Up" %} &raquo;</button>
+</form>
+
+{% endblock %}

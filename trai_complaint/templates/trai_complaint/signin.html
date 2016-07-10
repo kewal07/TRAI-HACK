@@ -1,0 +1,24 @@
+{% extends "trai_complaint/common.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signin" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Sign in" %}</h1>
+
+<form class="sign-in-form-class" id="sign-in-form" method="post" action="{% url 'account_login' %}?next={{ request.path }}">
+  {% csrf_token %}
+  <p>
+ 	  <input id="login" name="login" placeholder="E-mail address" type="email">
+  </p>
+  <p>
+  	<input id="password" name="password" placeholder="Password" type="password">
+  </p>
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="sign-in-button">{% trans "Sign In" %} &raquo;</button>
+</form>
+
+{% endblock %}
