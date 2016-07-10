@@ -73,10 +73,10 @@
 			            <a href="{% url 'trai_complaint:add-complaint' %}"><i class="fa fa-bug"></i> Add Complaint</a>
 			          </li>
 			          <li>
-			            <a href="#"><i class="fa fa-bar-chart"> Opinion Poll</i></a>
+			            <a href="{% url 'trai_complaint:opinion' %}"><i class="fa fa-bar-chart"> Opinion Poll</i></a>
 			          </li>
 			          <li>
-			            <a href="#"><i class="fa fa-question"></i> FAQ</a>
+			            <a href="{% url 'trai_complaint:do-it-yourself' %}"><i class="fa fa-question"></i> Do It YourSelf</a>
 			          </li>
 			          {% if not user.is_authenticated %}
 			          <li>

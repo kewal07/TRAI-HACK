@@ -131,6 +131,13 @@ class AjaxQueriesView(generic.ListView):
 				response_dic['circle'] = circles[random_index]
 				response_dic['tsp'] = TSP.objects.random().code
 				return HttpResponse(json.dumps(response_dic), content_type='application/json')
+			if request.path == "/predict/":
+				custId = request.POST.get("custId")
+				random_index = randint(0, len(circles) - 1)
+				response_dic = {}
+				response_dic['circle'] = circles[random_index]
+				response_dic['tsp'] = TSP.objects.random().code
+				return HttpResponse(json.dumps(response_dic), content_type='application/json')
 		except Exception as e:
 			exc_type, exc_obj, tb = sys.exc_info()
 			f = tb.tb_frame
@@ -175,3 +182,65 @@ class ExportView(generic.ListView):
 		data['services'] = TSPService.objects.all()
 		data['circles'] = circles
 		return data
+
+class OpinionPoll(generic.ListView):
+	template_name = 'trai_complaint/opinion.html'
+	def get_queryset(self):
+		data = {}
+		return data
+
+class DoItYourself(generic.ListView):
+	template_name = 'trai_complaint/do-it-yourself.html'
+	def get_queryset(self):
+		data = {}
+		return data
+
+import xlwt
+normal_style = xlwt.easyxf(
+	"""
+	font:name Verdana
+	"""
+)
+
+border_style = xlwt.easyxf(
+	"""
+	font:name Verdana;
+	border: top thin, right thin, bottom thin, left thin;
+	align: vert centre, horiz left;
+	"""
+)
+
+def excel_view(request):
+
+	complaints = Complaint.objects.all()
+	response = HttpResponse(content_type='application/ms-excel')
+	fname = "Complaints.xls"
+	response['Content-Disposition'] = 'attachment; filename=%s' % fname
+	wb = xlwt.Workbook()
+	ws1 = wb.add_sheet('Raw Data', cell_overwrite_ok=True)
+	ws1.write(0,0,"SR",normal_style)
+	ws1.write(0,1,"Circle",normal_style)
+	ws1.write(0,2,"Product",normal_style)
+	ws1.write(0,3,"TSP",normal_style)
+	ws1.write(0,4,"Summary",normal_style)
+	ws1.write(0,5,"Created At",normal_style)
+	ws1.write(0,6,"Updated At",normal_style)
+	ws1.write(0,7,"Status",normal_style)
+	ws1.write(0,8,"Category",normal_style)
+	i = 1
+	for complaint in complaints:
+		ws1.write(i,0,complaint.id,normal_style)
+		ws1.write(i,1,complaint.circle,normal_style)
+		service = ",".join([x.service.display_name for x in complaint.complaintwithservice_set.all()])
+		ws1.write(i,2,service,normal_style)
+		ws1.write(i,3,complaint.tsp.display_name,normal_style)
+		ws1.write(i,4,complaint.summary,normal_style)
+		ws1.write(i,5,str(complaint.created_at),normal_style)
+		ws1.write(i,6,str(complaint.updated_at),normal_style)
+		ws1.write(i,7,complaint.status.display_name,normal_style)
+		cats = ",".join([x.category.display_name for x in complaint.complaintwithcategory_set.all()])
+		ws1.write(i,8,cats,normal_style)
+		i+=1
+	wb.save(response)
+	return response
+	
