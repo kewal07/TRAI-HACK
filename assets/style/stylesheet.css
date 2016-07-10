@@ -135,3 +135,8 @@ img.askbypoll-embed-poll-logo{
 .tsp-table-body{
 	padding-bottom:18px;
 }
+.chat-box{
+	position: fixed;
+    bottom: 4rem;
+    right: 0;
+}
