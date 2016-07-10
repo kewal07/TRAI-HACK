@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^create-complaint/', login_required(views.CreateComplaintView.as_view()),name="create-complaint"),
     url(r'^complaint/(?P<pk>\d+)/(?P<slug>[\w\-]+)$', (views.ComplaintDetailView.as_view()),name="complaint-detail"),
     url(r'^cust_details/', views.AjaxQueriesView.as_view(),name="cust_details"),
+    url(r'^cmp_ana/', views.AjaxQueriesView.as_view(),name="cmp_ana"),
     url(r'^signup/', views.SignUpFormView.as_view(),name="signup"),
     url(r'^signin/', views.SignInFormView.as_view(),name="signin"),
     url(r'^logout$',views.logout_view,name="logout"),

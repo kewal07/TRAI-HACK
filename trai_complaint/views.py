@@ -138,6 +138,46 @@ class AjaxQueriesView(generic.ListView):
 				response_dic['circle'] = circles[random_index]
 				response_dic['tsp'] = TSP.objects.random().code
 				return HttpResponse(json.dumps(response_dic), content_type='application/json')
+			if request.path == "/cmp_ana/":
+				response_dic = {}
+				categories = Category.objects.filter(parent_category__isnull=True)
+				t1 = request.POST.get("tsp1").strip()
+				t2 = request.POST.get("tsp2").strip()
+				c1 = request.POST.get("circle1").strip()
+				c2 = request.POST.get("circle2").strip()
+				s1 = request.POST.get("service1").strip()
+				s2 = request.POST.get("service2").strip()
+				data1 = []
+				data2 = []
+				for cat in categories:
+					cmps = [x.complaint for x in ComplaintWithCategory.objects.filter(category=cat)]
+					addCnt1 = True
+					addCnt2 = True
+					d1 = 0
+					d2 = 0
+					for cmp in cmps:
+						ser = [x.service.code for x in cmp.complaintwithservice_set.all()]
+						if t1 and cmp.tsp.code != t1:
+							addCnt1 = False
+						if t2 and cmp.tsp.code != t2:
+							addCnt2 = False
+						if c1 and cmp.circle != c1:
+							addCnt1 = False
+						if c2 and cmp.circle != c2:
+							addCnt2 = False
+						if s1 and s1 not in ser:
+							addCnt1 = False
+						if s2 and s2 not in ser:
+							addCnt2 = False
+						if addCnt2:
+							d2 += 1
+						if addCnt1:
+							d1 += 1
+					data1.append(d1)
+					data2.append(d2)
+				response_dic['data1'] = data1
+				response_dic['data2'] = data2
+				return HttpResponse(json.dumps(response_dic), content_type='application/json')
 		except Exception as e:
 			exc_type, exc_obj, tb = sys.exc_info()
 			f = tb.tb_frame
