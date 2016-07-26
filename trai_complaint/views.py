@@ -6,6 +6,7 @@ from trai_complaint.models import Category, TSP, TSPService, Complaint, Complain
 from random import randint
 import os, sys, linecache
 import simplejson as json
+from wit import Wit
 from django.core.mail import send_mail
 
 # Create your views here.
@@ -36,6 +37,37 @@ class IndexView(generic.ListView):
 		data['tsps'] = TSP.objects.all()
 		data['services'] = TSPService.objects.all()
 		return data
+
+	def post(self,request,*args,**kwargs):
+		try:
+			success = {}
+			userMsg = request.POST.get('message')
+			actions = {
+			    'getBalance': getBalance,
+				'gettransactions':gettransactions,
+			}
+			client = Wit(access_token='TDBAKQ4EH4VKWJ4WXU3XD5RCICMUBHUH', actions=actions)
+			print(userMsg)
+			resp = client.converse('my-user-session-42', userMsg, {})
+			print(resp)
+			if 'msg' in resp:
+				success['msg'] = resp.get('msg')
+			elif 'action' in resp:
+				if resp['action'] == 'gettransactions':
+					success['msg'] = gettransactions()
+				else:
+					success['msg'] = getBalance()
+			else:
+				success['msg'] = "Finding resolution for your query"
+			return HttpResponse(json.dumps(success), content_type='application/json')
+		except Exception as e:
+			exc_type, exc_obj, tb = sys.exc_info()
+			f = tb.tb_frame
+			lineno = tb.tb_lineno
+			filename = f.f_code.co_filename
+			linecache.checkcache(filename)
+			line = linecache.getline(filename, lineno, f.f_globals)
+			print('EXCEPTION IN ({}, LINE {} "{}"): {}'.format(filename, lineno, line.strip(), exc_obj))
 
 class DashboardView(generic.ListView):
 	template_name = 'trai_complaint/dashboard.html'
@@ -286,4 +318,10 @@ def excel_view(request):
 		i+=1
 	wb.save(response)
 	return response
+
+def getBalance(request, response):
+	return "20"
+
+def gettransactions():
+	return 'Subscribed to caller tune'
 	
