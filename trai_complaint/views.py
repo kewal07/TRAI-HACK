@@ -13,7 +13,22 @@ from django.core.mail import send_mail
 
 circles = ['Andhra Pradesh', 'Assam', 'Bihar & Jharkhand', 'Chennai', 'Delhi', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu & Kashmir', 'Karnataka', 'Kerala', 'Kolkata', 'Madhya Pradesh & Chhattisgarh', 'Maharashtra', 'Mumbai', 'North East', 'Orissa', 'Punjab', 'Rajasthan', 'Tamilnadu', 'UP-East', 'UP-West & Uttarakhand', 'West Bengal']
 
-session = str(randint(100,1000))
+
+def getBalance(request, response):
+	return "20"
+
+def send(request, response):
+	return "sending..."
+	
+def gettransactions():
+	return 'Subscribed to caller tune'
+
+
+actions = {
+			    'getBalance': getBalance,
+			    'gettransactions':gettransactions,
+			}
+client = Wit(access_token='F4WAMUDT2E7DOFURHOQONHAW4RD3NYUO', actions=actions)
 
 class SignUpFormView(generic.ListView):
 	template_name = 'trai_complaint/signup.html'
@@ -44,15 +59,15 @@ class IndexView(generic.ListView):
 		try:
 			success = {}
 			userMsg = request.POST.get('message')
-			actions = {
-			    'getBalance': getBalance,
-			    'gettransactions':gettransactions,
-			}
-			client = Wit(access_token='TDBAKQ4EH4VKWJ4WXU3XD5RCICMUBHUH', actions=actions)
-			print(userMsg)
-			# resp = client.converse('my-user-session-42', userMsg, {})
-			client.interactive()
-			print(resp)
+
+			if not request.session.exists(request.session.session_key):
+				request.session.create()
+			sessionKey = request.session.session_key
+			
+			resp = client.converse(sessionKey, userMsg, {})
+			print('**************************')
+			print(sessionKey, userMsg)
+			print('**************************')
 			if 'msg' in resp:
 				success['msg'] = resp.get('msg')
 			elif 'action' in resp:
@@ -321,12 +336,4 @@ def excel_view(request):
 		i+=1
 	wb.save(response)
 	return response
-
-def getBalance(request, response):
-	return "20"
-
-def send(request, response):
-	return "sending..."
-def gettransactions():
-	return 'Subscribed to caller tune'
 	

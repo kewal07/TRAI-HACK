@@ -192,8 +192,9 @@
 
 				} else {
 					$('.direct-chat-messages').append('<div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">You</span><span class="direct-chat-timestamp pull-left">{% now "jS F Y H:i" %}</span></div><img class="direct-chat-img" src="{% static "img/user.png" %}" alt="Message User Image"><div class="direct-chat-text">'+$('#chatMessage').val()+'</div></div>');
-					$('#chatMessage').val('');
+					
 					var form_data = new FormData($(".chatForm")[0]);
+					$('#chatMessage').val('');
 					$.ajax({
 						type: 'POST',
 						url:"",
