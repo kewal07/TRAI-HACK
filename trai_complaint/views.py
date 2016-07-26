@@ -7,6 +7,7 @@ from random import randint
 import os, sys, linecache
 import simplejson as json
 from wit import Wit
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -141,6 +142,8 @@ class CreateComplaintView(generic.ListView):
 					if serv.strip():
 						service = TSPService.objects.filter(display_name=serv)[0]
 						compWithServ = ComplaintWithService.objects.get_or_create(service=service, complaint=complaint)
+				msg = "Hello\n\n A new complaint has been registered with id %s by %s : %s\n\n. Please provide user with the docket Number for further reference."%(complaint.id,request.user.first_name,complaint.summary)
+				send_mail('New Complaint Registered', msg, 'kewalkrishna17.4@gmail.com', ['kewal07@gmail.com'])
 			return HttpResponse(json.dumps(errors), content_type='application/json')
 		except Exception as e:
 			exc_type, exc_obj, tb = sys.exc_info()
