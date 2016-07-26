@@ -139,6 +139,7 @@ img.askbypoll-embed-poll-logo{
 	position: fixed;
     bottom: 0rem;
     right: 0;
+    z-index: 11;
 }
 .direct-chat-timestamp{
 	color:white !important;

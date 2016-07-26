@@ -101,9 +101,9 @@
 
 			<div class="col-md-3 chat-box">
 				<!-- DIRECT CHAT PRIMARY -->
-				<div class="box box-primary direct-chat direct-chat-primary" style="background:#3c8dbc;">
+				<div class="box box-primary direct-chat direct-chat-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title">GIA</h3>
+						<h3 class="box-title">TRAI</h3>
 
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -118,7 +118,7 @@
 					    	<!-- Message. Default to the left -->
 					    	<div class="direct-chat-msg">
 					      		<div class="direct-chat-info clearfix">
-							        <span class="direct-chat-name pull-left">GIA</span>
+							        <span class="direct-chat-name pull-left">TRAI</span>
 							        <span class="direct-chat-timestamp pull-right">{% now "jS F Y H:i" %}</span>
 					      		</div>
 								<!-- /.direct-chat-info -->
@@ -192,6 +192,7 @@
 
 				} else {
 					$('.direct-chat-messages').append('<div class="direct-chat-msg right"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-right">You</span><span class="direct-chat-timestamp pull-left">{% now "jS F Y H:i" %}</span></div><img class="direct-chat-img" src="{% static "img/user.png" %}" alt="Message User Image"><div class="direct-chat-text">'+$('#chatMessage').val()+'</div></div>');
+					$('#chatMessage').val('');
 					var form_data = new FormData($(".chatForm")[0]);
 					$.ajax({
 						type: 'POST',
@@ -206,7 +207,7 @@
 							if(typeof msg === 'undefined'){
 
 							}else{
-								$('.direct-chat-messages').append('<div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">GIA</span><span class="direct-chat-timestamp pull-right">{% now "jS F Y H:i" %}</span></div><img class="direct-chat-img" src="{% static "img/gia.png" %}" alt="Message User Image"><div class="direct-chat-text">'+msg+'</div></div>');
+								$('.direct-chat-messages').append('<div class="direct-chat-msg"><div class="direct-chat-info clearfix"><span class="direct-chat-name pull-left">TRAI</span><span class="direct-chat-timestamp pull-right">{% now "jS F Y H:i" %}</span></div><img class="direct-chat-img" src="{% static "img/gia.png" %}" alt="Message User Image"><div class="direct-chat-text">'+msg+'</div></div>');
 							}
 						}
 					});
