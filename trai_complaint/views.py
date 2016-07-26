@@ -13,6 +13,8 @@ from django.core.mail import send_mail
 
 circles = ['Andhra Pradesh', 'Assam', 'Bihar & Jharkhand', 'Chennai', 'Delhi', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu & Kashmir', 'Karnataka', 'Kerala', 'Kolkata', 'Madhya Pradesh & Chhattisgarh', 'Maharashtra', 'Mumbai', 'North East', 'Orissa', 'Punjab', 'Rajasthan', 'Tamilnadu', 'UP-East', 'UP-West & Uttarakhand', 'West Bengal']
 
+session = str(randint(100,1000))
+
 class SignUpFormView(generic.ListView):
 	template_name = 'trai_complaint/signup.html'
 	def get_queryset(self):
@@ -44,7 +46,7 @@ class IndexView(generic.ListView):
 			userMsg = request.POST.get('message')
 			actions = {
 			    'getBalance': getBalance,
-				'gettransactions':gettransactions,
+			    'gettransactions':gettransactions,
 			}
 			client = Wit(access_token='TDBAKQ4EH4VKWJ4WXU3XD5RCICMUBHUH', actions=actions)
 			print(userMsg)
@@ -144,7 +146,7 @@ class CreateComplaintView(generic.ListView):
 						service = TSPService.objects.filter(display_name=serv)[0]
 						compWithServ = ComplaintWithService.objects.get_or_create(service=service, complaint=complaint)
 				msg = "Hello\n\n A new complaint has been registered with id %s by %s : %s\n\n. Please provide user with the docket Number for further reference."%(complaint.id,request.user.first_name,complaint.summary)
-				send_mail('New Complaint Registered', msg, 'kewalkrishna17.4@gmail.com', ['kewal07@gmail.com'])
+				#send_mail('New Complaint Registered', msg, 'kewalkrishna17.4@gmail.com', ['kewal07@gmail.com'])
 			return HttpResponse(json.dumps(errors), content_type='application/json')
 		except Exception as e:
 			exc_type, exc_obj, tb = sys.exc_info()
@@ -323,6 +325,8 @@ def excel_view(request):
 def getBalance(request, response):
 	return "20"
 
+def send(request, response):
+	return "sending..."
 def gettransactions():
 	return 'Subscribed to caller tune'
 	
