@@ -137,6 +137,9 @@ img.askbypoll-embed-poll-logo{
 }
 .chat-box{
 	position: fixed;
-    bottom: 4rem;
+    bottom: 0rem;
     right: 0;
+}
+.direct-chat-timestamp{
+	color:white !important;
 }
