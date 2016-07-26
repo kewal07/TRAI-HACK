@@ -33,3 +33,11 @@
 </form>
 
 {% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+  $('.chat-box').css('display','none');
+});
+</script>
+{% endblock %}
+

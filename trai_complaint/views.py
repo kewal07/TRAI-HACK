@@ -48,7 +48,8 @@ class IndexView(generic.ListView):
 			}
 			client = Wit(access_token='TDBAKQ4EH4VKWJ4WXU3XD5RCICMUBHUH', actions=actions)
 			print(userMsg)
-			resp = client.converse('my-user-session-42', userMsg, {})
+			# resp = client.converse('my-user-session-42', userMsg, {})
+			client.interactive()
 			print(resp)
 			if 'msg' in resp:
 				success['msg'] = resp.get('msg')
