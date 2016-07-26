@@ -3,6 +3,13 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block extra_css %}
+<style>
+  .chat-box{
+    display:none !important;
+  }
+{% endblock %}
+</style>
 
 {% block content %}
 <h1>{% trans "Sign Up" %}</h1>
